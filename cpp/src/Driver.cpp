@@ -40,7 +40,9 @@
 #ifdef WINRT
 #include "platform/winRT/HidControllerWinRT.h"
 #else
-#include "platform/HidController.h"
+// 2016.08.17 bygomma : remove hidapi
+// #include "platform/HidController.h"
+// 2016.08.17 bygomma : end
 #endif
 #include "platform/Thread.h"
 #include "platform/Log.h"
@@ -225,7 +227,9 @@ m_nonceReportSentAttempt( 0 )
 
 	if( ControllerInterface_Hid == _interface )
 	{
-		m_controller = new HidController();
+// 2016.08.17 bygomma : remove hidapi
+//		m_controller = new HidController();
+// 2016.08.17 bygomma : end
 	}
 	else
 	{

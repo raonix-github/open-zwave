@@ -27,6 +27,9 @@
 //-----------------------------------------------------------------------------
 #include <unistd.h>
 #include <pthread.h>
+// 2016.08.17 bygomma : start
+#include <sys/select.h>
+// 2016.08.17 bygomma : end
 #include "Defs.h"
 #include "platform/Thread.h"
 #include "platform/Event.h"
@@ -34,7 +37,9 @@
 #include "platform/Log.h"
 
 #ifdef __linux__
-#include <libudev.h>
+// 2016.08.16 bygomma : remove hidapi
+// #include <libudev.h>
+// 2016.08.16 bygomma : end
 #endif
 
 using namespace OpenZWave;

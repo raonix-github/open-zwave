@@ -10,7 +10,10 @@ PREFIX	?= /usr/local
 
 
 #the System we are building on
-UNAME  := $(shell uname -s)
+# 2016.08.17 bygomma : OpenWrt
+# UNAME  := $(shell uname -s)
+UNAME  := Linux
+# 2016.08.17 bygomma : end
 #the location of Doxygen to generate our api documentation
 DOXYGEN := $(shell which doxygen)
 #dot is required for doxygen (part of Graphviz)

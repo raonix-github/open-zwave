@@ -59,22 +59,32 @@ endif
 
 else
 LDFLAGS += -shared -Wl,-soname,libopenzwave.so.$(VERSION)
-LIBS 	+= -ludev
+# 2016.08.17 bygomma : hidapi
+# LIBS 	+= -ludev
+# 2016.08.17 bygomma : end
 endif
 CFLAGS  += $(CPPFLAGS)
 
 #where to put the temporary library
 LIBDIR	?= $(top_builddir)
 
-INCLUDES	:= -I $(top_srcdir)/cpp/src -I $(top_srcdir)/cpp/tinyxml/ -I $(top_srcdir)/cpp/hidapi/hidapi/
+# 2016.08.17 bygomma : remove hidapi
+# INCLUDES	:= -I $(top_srcdir)/cpp/src -I $(top_srcdir)/cpp/tinyxml/ -I $(top_srcdir)/cpp/hidapi/hidapi/
+INCLUDES	:= -I $(top_srcdir)/cpp/src -I $(top_srcdir)/cpp/tinyxml/
+# 2016.08.17 bygomma : end
 
 ifeq ($(UNAME),Darwin)
 SOURCES_HIDAPI =$(top_srcdir)/cpp/hidapi/mac
 else ifeq ($(UNAME),FreeBSD)
 SOURCES_HIDAPI =$(top_srcdir)/cpp/hidapi/libusb
 else
-SOURCES_HIDAPI =$(top_srcdir)/cpp/hidapi/linux
+# 2016.08.17 bygomma : remove hidapi
+# SOURCES_HIDAPI =$(top_srcdir)/cpp/hidapi/linux
+SOURCES_HIDAPI =
+# 2016.08.17 bygomma : end
+#end
 endif
+
 
 
 SOURCES		:= $(top_srcdir)/cpp/src $(top_srcdir)/cpp/src/command_classes $(top_srcdir)/cpp/tinyxml \
@@ -90,7 +100,10 @@ hidapi := $(notdir $(wildcard $(top_srcdir)/cpp/hidapi/mac/*.c))
 else ifeq ($(UNAME),FreeBSD)
 hidapi := $(notdir $(wildcard $(top_srcdir)/cpp/hidapi/libusb/*.c))
 else
-hidapi := $(notdir $(wildcard $(top_srcdir)/cpp/hidapi/linux/*.c)) # we do not want the libusb version
+# 2016.08.17 bygomma : remove hidapi
+# hidapi := $(notdir $(wildcard $(top_srcdir)/cpp/hidapi/linux/*.c)) # we do not want the libusb version
+hidapi :=
+# 2016.08.17 bygomma : end
 endif
 
 ifeq ($(BITBAKE_ENV),1)
@@ -115,7 +128,9 @@ printversion:
 
 
 -include $(patsubst %.cpp,$(DEPDIR)/%.d,$(tinyxml))
--include $(patsubst %.c,$(DEPDIR)/%.d,$(hidapi))
+# 2016.08.17 bygomma : remove hidapi
+#-include $(patsubst %.c,$(DEPDIR)/%.d,$(hidapi))
+# 2016.08.17 bygomma : end
 -include $(patsubst %.cpp,$(DEPDIR)/%.d,$(cclasses))
 -include $(patsubst %.cpp,$(DEPDIR)/%.d,$(vclasses))
 -include $(patsubst %.cpp,$(DEPDIR)/%.d,$(pform))
@@ -134,7 +149,8 @@ $(top_srcdir)/cpp/src/vers.cpp:
 
 #$(OBJDIR)/vers.o:	$(top_builddir)/vers.cpp
 
-$(LIBDIR)/libopenzwave.a:	$(patsubst %.cpp,$(OBJDIR)/%.o,$(tinyxml)) \
+# 2016.08.17 bygomma : remove hidapi
+#$(LIBDIR)/libopenzwave.a:	$(patsubst %.cpp,$(OBJDIR)/%.o,$(tinyxml)) \
 			$(patsubst %.c,$(OBJDIR)/%.o,$(hidapi)) \
 			$(patsubst %.c,$(OBJDIR)/%.o,$(aes)) \
 			$(patsubst %.cpp,$(OBJDIR)/%.o,$(cclasses)) \
@@ -142,11 +158,20 @@ $(LIBDIR)/libopenzwave.a:	$(patsubst %.cpp,$(OBJDIR)/%.o,$(tinyxml)) \
 			$(patsubst %.cpp,$(OBJDIR)/%.o,$(pform)) \
 			$(patsubst %.cpp,$(OBJDIR)/%.o,$(indep)) \
 			$(OBJDIR)/vers.o
+$(LIBDIR)/libopenzwave.a:	$(patsubst %.cpp,$(OBJDIR)/%.o,$(tinyxml)) \
+			$(patsubst %.c,$(OBJDIR)/%.o,$(aes)) \
+			$(patsubst %.cpp,$(OBJDIR)/%.o,$(cclasses)) \
+			$(patsubst %.cpp,$(OBJDIR)/%.o,$(vclasses)) \
+			$(patsubst %.cpp,$(OBJDIR)/%.o,$(pform)) \
+			$(patsubst %.cpp,$(OBJDIR)/%.o,$(indep)) \
+			$(OBJDIR)/vers.o
+# 2016.08.17 bygomma : end
 	@echo "Linking Static Library"
 	@$(AR) $(ar_option) $@ $+
 	@$(RANLIB) $@
 
-$(LIBDIR)/$(SHARED_LIB_NAME):	$(patsubst %.cpp,$(OBJDIR)/%.o,$(tinyxml)) \
+# 2016.08.17 bygomma : remove hidapi
+#$(LIBDIR)/$(SHARED_LIB_NAME):	$(patsubst %.cpp,$(OBJDIR)/%.o,$(tinyxml)) \
 			$(patsubst %.c,$(OBJDIR)/%.o,$(hidapi)) \
 			$(patsubst %.c,$(OBJDIR)/%.o,$(aes)) \
 			$(patsubst %.cpp,$(OBJDIR)/%.o,$(cclasses)) \
@@ -154,6 +179,14 @@ $(LIBDIR)/$(SHARED_LIB_NAME):	$(patsubst %.cpp,$(OBJDIR)/%.o,$(tinyxml)) \
 			$(patsubst %.cpp,$(OBJDIR)/%.o,$(pform)) \
 			$(patsubst %.cpp,$(OBJDIR)/%.o,$(indep)) \
 			$(OBJDIR)/vers.o
+$(LIBDIR)/$(SHARED_LIB_NAME):	$(patsubst %.cpp,$(OBJDIR)/%.o,$(tinyxml)) \
+			$(patsubst %.c,$(OBJDIR)/%.o,$(aes)) \
+			$(patsubst %.cpp,$(OBJDIR)/%.o,$(cclasses)) \
+			$(patsubst %.cpp,$(OBJDIR)/%.o,$(vclasses)) \
+			$(patsubst %.cpp,$(OBJDIR)/%.o,$(pform)) \
+			$(patsubst %.cpp,$(OBJDIR)/%.o,$(indep)) \
+			$(OBJDIR)/vers.o
+# 2016.08.17 bygomma : end
 	@echo "Linking Shared Library"
 	@$(LD) $(LDFLAGS) $(TARCH) -o $@ $+ $(LIBS)
 	@ln -sf $(SHARED_LIB_NAME) $(LIBDIR)/$(SHARED_LIB_UNVERSIONED)
@@ -229,7 +262,9 @@ install: $(LIBDIR)/$(SHARED_LIB_NAME) doc $(top_builddir)/libopenzwave.pc $(top_
 	@if [ -d "$(top_builddir)/docs/html/" ]; then cp -r $(top_builddir)/docs/html/* $(DESTDIR)/$(docdir); fi
 	@echo "Installing Pkg-config Files"
 	@install -d $(DESTDIR)/$(pkgconfigdir) 
-	@cp $(top_builddir)/libopenzwave.pc $(DESTDIR)/$(pkgconfigdir)
+	# 2016.08.17 bygomma : error
+#	@cp $(top_builddir)/libopenzwave.pc $(DESTDIR)/$(pkgconfigdir)
+	# 2016.08.17 bygomma : end
 	@install -d $(DESTDIR)/$(PREFIX)/bin/
 	@cp $(top_builddir)/ozw_config $(DESTDIR)/$(PREFIX)/bin/ozw_config
 	@chmod 755 $(DESTDIR)/$(PREFIX)/bin/ozw_config
