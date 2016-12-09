@@ -80,7 +80,10 @@ DISTFILES =	.gitignore \
 	config/aeotec/zw121.xml \
 	config/aeotec/zw130.xml \
 	config/assa_abloy/KeyfreeConnected.xml \
-	config/assa_abloy/RealLivingCapTouch.xml \
+	config/assa_abloy/PushButtonDeadbolt.xml \
+	config/assa_abloy/PushButtonLever.xml \
+	config/assa_abloy/TouchDeadbolt.xml \
+	config/assa_abloy/TouchLever.xml \
 	config/cooper/RF9505-T.xml \
 	config/cooper/RF9540-N.xml \
 	config/danfoss/living.xml \
@@ -174,6 +177,8 @@ DISTFILES =	.gitignore \
 	config/gr/gr105n.xml \
 	config/greenwave/powernode1.xml \
 	config/greenwave/powernode6.xml \
+	config/hank/scenecontroller1.xml \
+	config/hank/scenecontroller4.xml \
 	config/homeseer/ezmotionplus.xml \
 	config/homeseer/hsm100.xml \
 	config/homeseer/hsm200.xml \
@@ -189,6 +194,7 @@ DISTFILES =	.gitignore \
 	config/idlock/idlock101.xml \
 	config/intermatic/ca8900.xml \
 	config/iris/rangeextender.xml \
+	config/kaipule/im20.xml \
 	config/kwikset/smartcode.xml \
 	config/leviton/rzi10.xml \
 	config/leviton/vrcpg.xml \
@@ -288,6 +294,7 @@ DISTFILES =	.gitignore \
 	config/stelpro/stzw402.xml \
 	config/swiid/swiidinter.xml \
 	config/swiid/swiidplug.xml \
+	config/telldus/tzwp100.xml \
 	config/telldus/tzdw100.xml \
 	config/thermofloor/heatit021.xml \
 	config/trane/TZEMT400AB32MAA.xml \

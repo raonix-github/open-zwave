@@ -132,6 +132,13 @@ Version 1.5
  - Issue #1047 - Add the Popp 012501 Strike Lock Control (Nechry)
  - Issue #1044 - Fibaro FGWPE Wall Plug is now type="0602" id="1001" (Nechry)
  - Issue #1031 - Neo CoolCam PIR sensor incomplete Config from fozzyg (Nechry)
+ - Add Kaipule IM20 Door/Window Sensor (Nechry)
+ - Add Add Yale door lock missing parameters (Nechry)
+ - Add Yale Keyless Connected Smart Lock (Nechry) 
+ - Add Yale variante for Keyless Connected Smart Lock (Nechry)
+ - Add add Heating Control variante (Nechry)
+ - Issue #1056 Added Configuration Variables for Telldus Plugin Switch TZWP-100 from fozzyg (Nechry)
+ - Add hank scene controllers from sarakha63 (Nechry)
 
 Version 1.4
  - Released 10th Jan, 2016
